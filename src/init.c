@@ -35,7 +35,7 @@ static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 {
 	uRTOS_InitTimer(initInfo);
 
-	__uRTOS_STATIC_INFO_PTR->scheduler = uRTOS_Sched_RoundRobin;
+	__uRTOS_STATIC_INFO_PTR->scheduler = (Scheduler_t)pgm_read_word(&initInfo->scheduler);
 }
 
 static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
