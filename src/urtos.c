@@ -23,3 +23,28 @@ void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nT
 
 	__builtin_unreachable();
 }
+
+void uRTOS_Yield()
+{
+	uint8_t sreg = SREG;
+	cli();
+
+	switch (__uRTOS_STATIC_INFO_PTR->sysFlags & __uRTOS_TIM_MASK)
+	{
+		case __uRTOS_TIM0:
+			__uRTOS_TCNT(0) = 0xff;
+			break;
+	
+		case __uRTOS_TIM1:
+			__uRTOS_TCNT_L(1) = 0xff;
+			__uRTOS_TCNT_H(1) = 0xff;
+			break;
+	
+		case __uRTOS_TIM2:
+			__uRTOS_TCNT(2) = 0xff;
+			break;
+	}
+
+	// Restore SREG (and interrupt flag)
+	SREG = sreg;
+}

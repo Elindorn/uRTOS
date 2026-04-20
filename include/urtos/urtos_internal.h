@@ -26,7 +26,7 @@
 #define __uRTOS_TCNT_L(timer)	TCNT ## timer ## L
 
 #define __uRTOS_TIM_OFFSET	0
-#define __uRTOS_TIM_MASK	(0b11 << __uRTOS_TIMER_NO)
+#define __uRTOS_TIM_MASK	(0b11 << __uRTOS_TIM_OFFSET)
 #define __uRTOS_TIM0		0b00
 #define __uRTOS_TIM1		0b01
 #define __uRTOS_TIM2		0b10
@@ -57,6 +57,8 @@ typedef struct StaticInfoStruct
 	TCBArray_t* array;
 
 	Scheduler_t scheduler;
+
+	uint8_t sysFlags;
 } StaticInfo_t;
 
 
