@@ -41,10 +41,20 @@ static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
 {
 	uint8_t* stack = tcb->basePointer;
+	
+	// PC
+	*stack-- = (uint8_t)((uint16_t)handle & 0xff);
+	*stack-- = (uint8_t)((uint16_t)handle >> 8);
 
-	// Stack registers init
+	// Clear all registers
+	for (uint8_t i = 0; i < 32; i++)
+	{
+		*stack-- = 0x00;
+	}
 
-	tcb->stackPointer = stack - 35; // 35 = r0..r31 (32 bytes) + SREG (1 byte) + PC (2 bytes)
+	// SREG (allow interrupts)
+	*stack-- = (1 << SREG_I);
+	tcb->stackPointer = stack;
 }
 
 static void __attribute__((noreturn)) uRTOS_LaunchFirstTask(TaskId_t id)
