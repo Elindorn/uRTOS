@@ -92,6 +92,7 @@ void __attribute__((naked, used, noinline)) uRTOS_TickHandler()
 	);
 
 	// Call scheduler
+	__uRTOS_STATIC_INFO_PTR->scheduler();
 
 	// Restore the SP of a new task
 	// (current TCB in static info already updated)
