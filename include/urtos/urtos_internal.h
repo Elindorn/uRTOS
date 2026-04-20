@@ -6,6 +6,7 @@
 #include <avr/io.h>
 #include <urtos/urtos.h>
 
+
 #define __uRTOS_NULLPTR ((void*)0x0000)
 #define __uRTOS_RAM_END ((Pointer_t)(RAMEND))
 
@@ -14,6 +15,21 @@
 #define __uRTOS_SYSTEM_STACK_START ((void*)(__uRTOS_RAM_END - sizeof(StaticInfo_t)))
 
 #define __uRTOS_SYSTEM_STACK_SIZE 64
+
+
+#define __uRTOS_TCCRA(timer)	TCCR ## timer ## A
+#define __uRTOS_TCCRB(timer)	TCCR ## timer ## B
+#define __uRTOS_TIMSK(timer)	TIMSK ## timer
+#define __uRTOS_TIFR(timer)		TIFR ## timer
+#define __uRTOS_TCNT(timer)		TCNT ## timer
+#define __uRTOS_TCNT_H(timer)	TCNT ## timer ## H
+#define __uRTOS_TCNT_L(timer)	TCNT ## timer ## L
+
+#define __uRTOS_TIM_OFFSET	0
+#define __uRTOS_TIM_MASK	(0b11 << __uRTOS_TIMER_NO)
+#define __uRTOS_TIM0		0b00
+#define __uRTOS_TIM1		0b01
+#define __uRTOS_TIM2		0b10
 
 
 #ifdef __cplusplus

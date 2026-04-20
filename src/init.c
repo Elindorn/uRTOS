@@ -2,10 +2,33 @@
 
 static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 {
-	TCCR2A = 0x00;
-	TCCR2B = 0b011;
-	TCNT2 = 0x00;
-	TIMSK2 = 1 << TOIE2;
+	uint8_t timer = pgm_read_byte(&initInfo->timerNo);
+	uint8_t prescaler = pgm_read_byte(&initInfo->timerPrescaler);
+
+	switch (timer)
+	{
+		case 0:
+			__uRTOS_TCCRA(0) = 0x00;
+			__uRTOS_TCCRB(0) = prescaler & 0b111;
+			__uRTOS_TCNT(0) = 0x00;
+			__uRTOS_TIMSK(0) = (1 << TOIE0);
+			break;
+
+		case 1:
+			__uRTOS_TCCRA(1) = 0x00;
+			__uRTOS_TCCRB(1) = prescaler & 0b111;
+			__uRTOS_TCNT_H(1) = 0x00;
+			__uRTOS_TCNT_L(1) = 0x00;
+			__uRTOS_TIMSK(1) = (1 << TOIE1);
+			break;
+
+		case 2:
+			__uRTOS_TCCRA(2) = 0x00;
+			__uRTOS_TCCRB(2) = prescaler & 0b111;
+			__uRTOS_TCNT(2) = 0x00;
+			__uRTOS_TIMSK(2) = (1 << TOIE2);
+			break;
+	}
 }
 
 static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)

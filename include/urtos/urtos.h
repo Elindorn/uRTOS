@@ -27,7 +27,9 @@ typedef size_t TaskId_t;
 
 typedef struct _SystemInitInfoStruct
 {
-	// ...
+	uint8_t timerNo;
+	uint8_t timerPrescaler;
+	Scheduler_t scheduler;
 } SysInitInfo_t;
 
 typedef struct _TaskDescriptorStruct
