@@ -48,3 +48,35 @@ void uRTOS_Yield()
 	// Restore SREG (and interrupt flag)
 	SREG = sreg;
 }
+
+void uRTOS_DisableTask(TaskId_t id)
+{
+	uint8_t sreg = SREG;
+	cli();
+
+	__uRTOS_STATIC_INFO_PTR->array->TCBs[id].flags |= uRTOS_TFLAGS_SUSPENDED;
+
+	SREG = sreg;
+}
+
+void uRTOS_DisableCurrentTask()
+{
+	uint8_t sreg = SREG;
+	cli();
+
+	__uRTOS_STATIC_INFO_PTR->current->flags |= uRTOS_TFLAGS_SUSPENDED;
+
+	SREG = sreg;
+
+	uRTOS_Yield();
+}
+
+void uRTOS_EnableTask(TaskId_t id)
+{
+	uint8_t sreg = SREG;
+	cli();
+
+	__uRTOS_STATIC_INFO_PTR->array->TCBs[id].flags &= ~uRTOS_TFLAGS_SUSPENDED;
+
+	SREG = sreg;
+}
