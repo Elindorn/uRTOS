@@ -6,6 +6,10 @@
 #include <stdint.h>
 
 
+#define uRTOS_PROC_HANDLE(name) void __attribute__((used, noinline, noreturn)) name(void)
+#define uRTOS_SCHEDULER(name) void __attribute__((used, noinline)) name(void)
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,6 +38,8 @@ typedef struct _TaskDescriptorStruct
 
 
 void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks) __attribute__((noreturn));
+
+uRTOS_SCHEDULER(uRTOS_Sched_RoundRobin);
 
 
 #ifdef __cplusplus

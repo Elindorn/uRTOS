@@ -11,6 +11,8 @@ static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 {
 	uRTOS_InitTimer(initInfo);
+
+	__uRTOS_STATIC_INFO_PTR->scheduler = uRTOS_Sched_RoundRobin;
 }
 
 static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
@@ -56,6 +58,11 @@ void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t n
 		stack -= stackSize;
 	}
 
+	__uRTOS_STATIC_INFO_PTR->current = &array->TCBs[firstRunnable];
+	__uRTOS_STATIC_INFO_PTR->last = &array->TCBs[array->nTCBs - 1];
+	__uRTOS_STATIC_INFO_PTR->array = array;
+	// Scheduler will be set in InitSystem
+	
 	uRTOS_InitSystem(initInfo);
 	uRTOS_LaunchFirstTask(firstRunnable);
 

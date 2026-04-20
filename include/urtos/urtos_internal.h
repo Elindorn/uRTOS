@@ -9,6 +9,7 @@
 #define __uRTOS_NULLPTR ((void*)0x0000)
 #define __uRTOS_RAM_END ((Pointer_t)(RAMEND))
 
+#define __uRTOS_STATIC_INFO_PTR ((StaticInfo_t*)(RAMEND - sizeof(StaticInfo_t) + 1))
 
 #define __uRTOS_SYSTEM_STACK_START ((void*)(__uRTOS_RAM_END - sizeof(StaticInfo_t)))
 
@@ -38,11 +39,8 @@ typedef struct StaticInfoStruct
 	TCB_t* last;
 
 	TCBArray_t* array;
-} StaticInfo_t;
 
-typedef struct StaticInfoStruct
-{
-	// ...
+	Scheduler_t scheduler;
 } StaticInfo_t;
 
 
