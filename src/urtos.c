@@ -1,4 +1,5 @@
 #include <urtos/urtos_internal.h>
+#include <avr/interrupt.h>
 
 void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks)
 {
@@ -32,16 +33,19 @@ void uRTOS_Yield()
 	switch (__uRTOS_STATIC_INFO_PTR->sysFlags & __uRTOS_TIM_MASK)
 	{
 		case __uRTOS_TIM0:
-			__uRTOS_TCNT(0) = 0xff;
+			__uRTOS_TCNT(0) = 0x00;
+			__uRTOS_TIFR(0) |= 1 << TOV0;
 			break;
 	
 		case __uRTOS_TIM1:
-			__uRTOS_TCNT_L(1) = 0xff;
-			__uRTOS_TCNT_H(1) = 0xff;
+			__uRTOS_TCNT_L(1) = 0x00;
+			__uRTOS_TCNT_H(1) = 0x00;
+			__uRTOS_TIFR(1) |= 1 << TOV1;
 			break;
 	
 		case __uRTOS_TIM2:
-			__uRTOS_TCNT(2) = 0xff;
+			__uRTOS_TCNT(2) = 0x00;
+			__uRTOS_TIFR(2) |= 1 << TOV2;
 			break;
 	}
 

@@ -65,6 +65,7 @@ typedef struct _StaticInfoStruct
 
 
 void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks) __attribute__((noreturn, noinline));
+void uRTOS_TickHandler(void);
 
 
 #ifdef __cplusplus

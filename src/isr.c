@@ -1,4 +1,4 @@
-#include "urtos/urtos_internal.h"
+#include <urtos/urtos_internal.h>
 
 void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 {
