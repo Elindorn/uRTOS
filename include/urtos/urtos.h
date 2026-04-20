@@ -55,6 +55,14 @@ typedef struct _TaskDescriptorStruct
 
 void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks) __attribute__((noreturn));
 
+void uRTOS_Yield(void);
+
+void uRTOS_DisableTask(TaskId_t id);
+void uRTOS_DisableCurrentTask(void);
+void uRTOS_EnableTask(TaskId_t id);
+
+unsigned long uRTOS_GetTick();
+
 uRTOS_SCHEDULER(uRTOS_Sched_RoundRobin);
 
 

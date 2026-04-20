@@ -81,7 +81,7 @@ void uRTOS_EnableTask(TaskId_t id)
 	SREG = sreg;
 }
 
-void uRTOS_GetTick()
+unsigned long uRTOS_GetTick()
 {
 	return __uRTOS_STATIC_INFO_PTR->tick;
 }
