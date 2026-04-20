@@ -1,9 +1,11 @@
 #include <urtos/urtos_internal.h>
 
-static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
+void __attribute__((weak)) uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 {
 	uint8_t timer = pgm_read_byte(&initInfo->timerNo);
 	uint8_t prescaler = pgm_read_byte(&initInfo->timerPrescaler);
+
+	__uRTOS_STATIC_INFO_PTR->sysFlags &= ~__uRTOS_TIM_MASK;
 
 	switch (timer)
 	{
@@ -12,6 +14,8 @@ static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 			__uRTOS_TCCRB(0) = prescaler & 0b111;
 			__uRTOS_TCNT(0) = 0x00;
 			__uRTOS_TIMSK(0) = (1 << TOIE0);
+
+			__uRTOS_STATIC_INFO_PTR->sysFlags |= __uRTOS_TIM0;
 			break;
 
 		case 1:
@@ -20,6 +24,8 @@ static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 			__uRTOS_TCNT_H(1) = 0x00;
 			__uRTOS_TCNT_L(1) = 0x00;
 			__uRTOS_TIMSK(1) = (1 << TOIE1);
+
+			__uRTOS_STATIC_INFO_PTR->sysFlags |= __uRTOS_TIM1;
 			break;
 
 		case 2:
@@ -27,6 +33,8 @@ static void uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 			__uRTOS_TCCRB(2) = prescaler & 0b111;
 			__uRTOS_TCNT(2) = 0x00;
 			__uRTOS_TIMSK(2) = (1 << TOIE2);
+
+			__uRTOS_STATIC_INFO_PTR->sysFlags |= __uRTOS_TIM2;
 			break;
 	}
 }
