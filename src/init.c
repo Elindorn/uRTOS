@@ -1,4 +1,5 @@
 #include <urtos/urtos_internal.h>
+#include <avr/pgmspace.h>
 
 void __attribute__((weak)) uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 {
