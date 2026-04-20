@@ -9,6 +9,7 @@
 #define uRTOS_PROC_HANDLE(name) void __attribute__((used, noinline, noreturn)) name(void)
 #define uRTOS_SCHEDULER(name) void __attribute__((used, noinline)) name(void)
 
+#define uRTOS_INSTALL(vector) ISR(vector, ISR_NAKED) { __asm__ __volatile__ ("jmp uRTOS_TickHandler" ::); }
 
 #ifdef __cplusplus
 extern "C" {
