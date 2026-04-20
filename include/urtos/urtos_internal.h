@@ -37,19 +37,20 @@ extern "C" {
 #endif
 
 
-typedef struct TaskControlBlockStruct
+typedef struct _TaskControlBlockStruct
 {
 	StackPtr_t stackPointer;
 	BasePtr_t basePointer;
+	TaskFlags_t flags;
 } TCB_t;
 
-typedef struct TaskControlBlockArrayStruct
+typedef struct _TaskControlBlockArrayStruct
 {
 	size_t nTCBs;
 	TCB_t TCBs[];
 } TCBArray_t;
 
-typedef struct StaticInfoStruct
+typedef struct _StaticInfoStruct
 {
 	TCB_t* current;
 	TCB_t* last;

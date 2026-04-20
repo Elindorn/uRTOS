@@ -129,18 +129,19 @@ void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t n
 	Pointer_t stack = stacksEnd;
 	while (nTasks--)
 	{
-		volatile ProcAddr_t procHandle = (ProcAddr_t)pgm_read_word(&tasks[nTasks].handle);
-		volatile size_t stackSize = pgm_read_word(&tasks[nTasks].stackSize);
+		ProcAddr_t procHandle = (ProcAddr_t)pgm_read_word(&tasks[nTasks].handle);
+		size_t stackSize = pgm_read_word(&tasks[nTasks].stackSize);
+		TaskFlags_t taskFlags = pgm_read_byte(&tasks[nTasks].flags);
 
 		array->TCBs[nTasks].basePointer = stack;
 
-		if (1 /* Task flags */)
+		array->TCBs[nTasks].flags = taskFlags;
+		if (!(taskFlags & uRTOS_TFLAGS_SUSPENDED))
 		{
 			firstRunnable = nTasks;
 		}
 
 		uRTOS_BootstrapTask(&array->TCBs[nTasks], procHandle);
-
 		stack -= stackSize;
 	}
 
@@ -148,7 +149,7 @@ void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t n
 	__uRTOS_STATIC_INFO_PTR->last = &array->TCBs[array->nTCBs - 1];
 	__uRTOS_STATIC_INFO_PTR->array = array;
 	// Scheduler will be set in InitSystem
-	
+
 	uRTOS_InitSystem(initInfo);
 	uRTOS_LaunchFirstTask(firstRunnable);
 

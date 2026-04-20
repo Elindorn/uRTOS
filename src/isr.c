@@ -4,12 +4,15 @@ void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 {
 	TCB_t* next = __uRTOS_STATIC_INFO_PTR->current;
 
-	next += 1;
-
-	if (next > __uRTOS_STATIC_INFO_PTR->last)
+	do
 	{
-		next = __uRTOS_STATIC_INFO_PTR->array->TCBs;
-	}
+		next += 1;
+
+		if (next > __uRTOS_STATIC_INFO_PTR->last)
+		{
+			next = __uRTOS_STATIC_INFO_PTR->array->TCBs;
+		}
+	} while (next->flags != 0);
 	
 	__uRTOS_STATIC_INFO_PTR->current = next;
 }

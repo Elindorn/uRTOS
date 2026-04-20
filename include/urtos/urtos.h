@@ -11,6 +11,10 @@
 
 #define uRTOS_INSTALL(vector) ISR(vector, ISR_NAKED) { __asm__ __volatile__ ("jmp uRTOS_TickHandler" ::); }
 
+#define uRTOS_TFLAGS_NONE		0
+#define uRTOS_TFLAGS_SUSPENDED	1
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,6 +27,8 @@ typedef void (*ProcAddr_t)(void);
 typedef void* Pointer_t;
 typedef Pointer_t StackPtr_t;
 typedef Pointer_t BasePtr_t;
+
+typedef uint8_t TaskFlags_t;
 
 typedef size_t TaskId_t;
 
@@ -37,6 +43,7 @@ typedef struct _TaskDescriptorStruct
 {
 	ProcAddr_t handle;
 	size_t stackSize;
+	TaskFlags_t flags;
 } TaskDesc_t;
 
 
