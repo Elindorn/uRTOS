@@ -16,7 +16,10 @@ typedef void (*ProcAddr_t)(void);
 
 
 typedef void* Pointer_t;
+typedef Pointer_t StackPtr_t;
+typedef Pointer_t BasePtr_t;
 
+typedef size_t TaskId_t;
 
 typedef struct _SystemInitInfoStruct
 {

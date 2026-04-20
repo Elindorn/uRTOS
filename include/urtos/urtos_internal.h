@@ -6,7 +6,7 @@
 #include <avr/io.h>
 #include <urtos/urtos.h>
 
-
+#define __uRTOS_NULLPTR ((void*)0x0000)
 #define __uRTOS_RAM_END ((Pointer_t)(RAMEND))
 
 
@@ -19,6 +19,26 @@
 extern "C" {
 #endif
 
+
+typedef struct TaskControlBlockStruct
+{
+	StackPtr_t stackPointer;
+	BasePtr_t basePointer;
+} TCB_t;
+
+typedef struct TaskControlBlockArrayStruct
+{
+	size_t nTCBs;
+	TCB_t TCBs[];
+} TCBArray_t;
+
+typedef struct StaticInfoStruct
+{
+	TCB_t* current;
+	TCB_t* last;
+
+	TCBArray_t* array;
+} StaticInfo_t;
 
 typedef struct StaticInfoStruct
 {
