@@ -14,6 +14,12 @@
 #define uRTOS_TFLAGS_NONE		0
 #define uRTOS_TFLAGS_SUSPENDED	1
 
+#define uRTOS_TIM_PRESC_1		0b001
+#define uRTOS_TIM_PRESC_8		0b010
+#define uRTOS_TIM_PRESC_64		0b011
+#define uRTOS_TIM_PRESC_256		0b100
+#define uRTOS_TIM_PRESC_1024	0b101
+
 
 #ifdef __cplusplus
 extern "C" {
