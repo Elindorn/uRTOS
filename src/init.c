@@ -59,7 +59,60 @@ static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
 
 static void __attribute__((noreturn)) uRTOS_LaunchFirstTask(TaskId_t id)
 {
-	while (1);
+	__asm__ __volatile__
+	(
+		// Restore SP
+		"out __SP_L__, %A0"		"\n\t"
+		"out __SP_H__, %B0"		"\n\t"
+
+		// Restore SREG
+		"pop r16"				"\n\t"
+		"out __SREG__, r16"		"\n\t"
+
+		// Clear registers
+		"pop r31"				"\n\t"
+		"pop r30"				"\n\t"
+
+		"pop r29"				"\n\t"
+		"pop r28"				"\n\t"
+		"pop r27"				"\n\t"
+		"pop r26"				"\n\t"
+		"pop r25"				"\n\t"
+		"pop r24"				"\n\t"
+		"pop r23"				"\n\t"
+		"pop r22"				"\n\t"
+		"pop r21"				"\n\t"
+		"pop r20"				"\n\t"
+
+		"pop r19"				"\n\t"
+		"pop r18"				"\n\t"
+		"pop r17"				"\n\t"
+		"pop r16"				"\n\t"
+		"pop r15"				"\n\t"
+		"pop r14"				"\n\t"
+		"pop r13"				"\n\t"
+		"pop r12"				"\n\t"
+		"pop r11"				"\n\t"
+		"pop r10"				"\n\t"
+
+		"pop r9"				"\n\t"
+		"pop r8"				"\n\t"
+		"pop r7"				"\n\t"
+		"pop r6"				"\n\t"
+		"pop r5"				"\n\t"
+		"pop r4"				"\n\t"
+		"pop r3"				"\n\t"
+		"pop r2"				"\n\t"
+		"pop r1"				"\n\t"
+		"pop r0"				"\n\t"
+
+		// Restore PC and allow interrupts
+		"reti"					"\n\t"
+		:
+		: "r" (__uRTOS_STATIC_INFO_PTR->array->TCBs[id].stackPointer)
+	);
+
+	__builtin_unreachable();
 }
 
 void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks)
