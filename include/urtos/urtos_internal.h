@@ -57,8 +57,9 @@ typedef struct _StaticInfoStruct
 
 	TCBArray_t* array;
 
-	Scheduler_t scheduler;
+	unsigned long tick;
 
+	Scheduler_t scheduler;
 	uint8_t sysFlags;
 } StaticInfo_t;
 
