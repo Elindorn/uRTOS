@@ -1,0 +1,9 @@
+{
+	"name": "uRTOS",
+	"version": "0.0.0",
+	"frameworks": "*",
+	"platforms": [
+		"atmelavr",
+		"lgt8f"
+	]
+}
