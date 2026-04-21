@@ -138,6 +138,11 @@ unsigned long uRTOS_GetTick()
 	return __uRTOS_STATIC_INFO_PTR->tick;
 }
 
+/**
+ * @brief Invoke the error callback specified in __uRTOS_STATIC_INFO_PTR.
+ * 
+ * @param error Error code.
+ */
 void __uRTOS_InvokeErrorHandler(Errno_t error)
 {
 	if (__uRTOS_STATIC_INFO_PTR->errorHandler)
