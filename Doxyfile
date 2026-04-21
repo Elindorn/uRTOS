@@ -8,3 +8,12 @@ INPUT					= include src
 RECURSIVE				= YES
 GENERATE_HTML			= YES
 GENERATE_LATEX			= NO
+
+# Fix attributes
+ENABLE_PREPROCESSING	= YES
+MACRO_EXPANSION			= YES
+EXPAND_ONLY_PREDEF		= YES
+
+PREDEFINED				+= __attribute__(x)=
+PREDEFINED				+= __extension__=
+PREDEFINED				+= __restrict=
