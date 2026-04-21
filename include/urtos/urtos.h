@@ -174,7 +174,7 @@ void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nT
 void uRTOS_Yield(void);
 
 /**
- * @brief Suspend a task.
+ * @brief Suspend a task by its ID.
  * 
  * The suspended task will not be scheduled until re-enabled.
  * 
@@ -191,7 +191,7 @@ void uRTOS_DisableTask(TaskId_t id);
 void uRTOS_DisableCurrentTask(void);
 
 /**
- * @brief Resume a suspended task.
+ * @brief Resume a suspended task by its ID.
  * 
  * @param id Task identifier (0..nTasks-1).
  */

@@ -1,5 +1,25 @@
+/**
+ * @file isr.c
+ * @brief ISR and scheduler implementation.
+ * 
+ * @author Elindorn
+ * @copyright Copyright (c) 2026 Elindorn
+ * @licence MIT Licence
+ */
+
+
 #include <urtos/urtos_internal.h>
 
+
+/**
+ * @brief Default round-robin scheduler.
+ * 
+ * This scheduler selects the next task in a circular manner, skipping any
+ * tasks with non-zero flags (e.g., suspended). It will hangs forever if all
+ * tasks is suspended.
+ * 
+ * @note This function is called from the tick ISR on the system stack.
+ */
 void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 {
 	TCB_t* next = __uRTOS_STATIC_INFO_PTR->current;
@@ -17,6 +37,14 @@ void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 	__uRTOS_STATIC_INFO_PTR->current = next;
 }
 
+/**
+ * @brief Naked timer tick handler.
+ * 
+ * This function is jumped to from the user‑installed `ISR_NAKED` stub.
+ * It performs a full context save, switches to the system stack, invokes
+ * the scheduler, updates the tick counter, and restores the context of
+ * the next task.
+ */
 void __attribute__((naked, used, noinline)) uRTOS_TickHandler()
 {
 	// Save context

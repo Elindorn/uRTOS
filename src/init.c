@@ -1,6 +1,25 @@
+/**
+ * @file init.c
+ * @brief Kernel initialization routines.
+ * 
+ * @author Elindorn
+ * @copyright Copyright (c) 2026 Elindorn
+ * @licence MIT Licence
+ */
+
+
 #include <urtos/urtos_internal.h>
 #include <avr/pgmspace.h>
 
+
+/**
+ * @brief Initialize the hardware timer.
+ * 
+ * This function is declared weak so that an application can override it
+ * with a custom timer setup if needed.
+ * 
+ * @param initInfo Pointer to system initialization info (in PROGMEM).
+ */
 void __attribute__((weak)) uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 {
 	uint8_t timer = pgm_read_byte(&initInfo->timerNo);
@@ -40,6 +59,11 @@ void __attribute__((weak)) uRTOS_InitTimer(const SysInitInfo_t* initInfo)
 	}
 }
 
+/**
+ * @brief Initialize system data and timer.
+ * 
+ * @param initInfo Pointer to system initialization info (in PROGMEM).
+ */
 static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 {
 	uRTOS_InitTimer(initInfo);
@@ -47,6 +71,15 @@ static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 	__uRTOS_STATIC_INFO_PTR->scheduler = (Scheduler_t)pgm_read_word(&initInfo->scheduler);
 }
 
+/**
+ * @brief Prepare the initial stack frame for a task.
+ * 
+ * The stack is populated with a fake interrupt frame: PC, 32 zeroed
+ * registers, and SREG with I flag set.
+ * 
+ * @param tcb Task control block to initialize.
+ * @param handle Task function pointer.
+ */
 static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
 {
 	uint8_t* stack = tcb->basePointer;
@@ -66,6 +99,14 @@ static void uRTOS_BootstrapTask(TCB_t* tcb, ProcAddr_t handle)
 	tcb->stackPointer = stack;
 }
 
+/**
+ * @brief Launch the first task.
+ * 
+ * Restores the stack pointer and all registers from the task's stack,
+ * then executes `reti` to start the task with interrupts enabled.
+ * 
+ * @param id Index of the first task to run.
+ */
 static void __attribute__((noreturn)) uRTOS_LaunchFirstTask(TaskId_t id)
 {
 	__asm__ __volatile__
@@ -124,6 +165,16 @@ static void __attribute__((noreturn)) uRTOS_LaunchFirstTask(TaskId_t id)
 	__builtin_unreachable();
 }
 
+/**
+ * @brief Second-stage kernel initializer.
+ * 
+ * Allocates TCBs and stacks, initializes the stack info block, sets up
+ * the timer, and launces the first runnable task.
+ * 
+ * @param initInfo Pointer to system initialization info (in PROGMEM).
+ * @param tasks Pointer to array of task descriptors (in PROGMEM).
+ * @param nTasks Number of tasks in the array.
+ */
 void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks)
 {
 	TCBArray_t* array = __uRTOS_NULLPTR;

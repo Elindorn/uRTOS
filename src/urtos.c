@@ -1,6 +1,28 @@
+/**
+ * @file urtos.c
+ * @brief Public API implementation for uRTOS.
+ * 
+ * @author Elindorn
+ * @copyright Copyright (c) 2026 Elindorn
+ * @licence MIT Licence
+ */
+
+
 #include <urtos/urtos_internal.h>
 #include <avr/interrupt.h>
 
+
+/**
+ * @brief Start the uRTOS kernel.
+ * 
+ * Disables interrupts, switches to the system stack, and calls the second
+ * stage initializer.
+ * 
+ * 
+ * @param initInfo Pointer to system initialization info (in PROGMEM).
+ * @param tasks Pointer to array of task descriptors (in PROGMEM).
+ * @param nTasks Number of tasks in the array.
+ */
 void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nTasks)
 {
 	cli();
@@ -25,6 +47,13 @@ void uRTOS_Run(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t nT
 	__builtin_unreachable();
 }
 
+/**
+ * @brief Voluntarily yield the processor.
+ * 
+ * Resets the timer counter and sets the overflow flag, then re-enables
+ * interrupts. The pending interrupt will fire immediately and invoke the
+ * scheduler.
+ */
 void uRTOS_Yield()
 {
 	uint8_t sreg = SREG;
@@ -53,6 +82,11 @@ void uRTOS_Yield()
 	SREG = sreg;
 }
 
+/**
+ * @brief Suspend a task by its ID.
+ * 
+ * @param id Task identifier (0..nTasks-1).
+ */
 void uRTOS_DisableTask(TaskId_t id)
 {
 	uint8_t sreg = SREG;
@@ -63,6 +97,9 @@ void uRTOS_DisableTask(TaskId_t id)
 	SREG = sreg;
 }
 
+/**
+ * @brief Suspend the calling task.
+ */
 void uRTOS_DisableCurrentTask()
 {
 	uint8_t sreg = SREG;
@@ -75,6 +112,11 @@ void uRTOS_DisableCurrentTask()
 	uRTOS_Yield();
 }
 
+/**
+ * @brief Resume a suspended task by its ID.
+ * 
+ * @param id Task identifier (0..nTasks-1).
+ */
 void uRTOS_EnableTask(TaskId_t id)
 {
 	uint8_t sreg = SREG;
@@ -85,6 +127,11 @@ void uRTOS_EnableTask(TaskId_t id)
 	SREG = sreg;
 }
 
+/**
+ * @brief Get the current system tick count.
+ * 
+ * @return Number of ticks since the kernel started.
+ */
 unsigned long uRTOS_GetTick()
 {
 	return __uRTOS_STATIC_INFO_PTR->tick;
