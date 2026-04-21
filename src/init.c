@@ -190,6 +190,11 @@ void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t n
 		stack -= stackSize;
 	}
 
+	// Check overlaps
+	Pointer_t stackStart = (Pointer_t)pgm_read_word(&initInfo->stacksStart);
+	if (stackStart == 0 || stack < stackStart)
+		uRTOS_InvokeErrorHandler(uRTOS_INSUFFICIENT_MEMORY);
+
 	__uRTOS_STATIC_INFO_PTR->current = &array->TCBs[firstRunnable];
 	__uRTOS_STATIC_INFO_PTR->last = &array->TCBs[array->nTCBs - 1];
 	__uRTOS_STATIC_INFO_PTR->array = array;

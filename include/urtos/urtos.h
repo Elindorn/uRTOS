@@ -91,6 +91,11 @@
 #define uRTOS_ALL_TASKS_SUSPENDED	3 /**< No runnable tasks. */
 /** @} */ // end of errno
 
+/**
+ * @brief Stack memory name wrapper.
+ */
+#define uRTOS_STACK_START ((void*)&__heap_start)
+
 /** @} */ // end of public_api
 
 
@@ -157,6 +162,7 @@ typedef struct _SystemInitInfoStruct
 {
 	uint8_t timerNo;				/**< Timer number (0, 1, or 2). */
 	uint8_t timerPrescaler;			/**< Timer prescaler (use uRTOS_TIM_PRESC_*). */
+	Pointer_t stacksStart;			/**< Lowest available address for stacks (use uRTOS_STACK_START). */
 	Scheduler_t scheduler;			/**< Pointer to the scheduler function. */
 	ErrorCallback_t errorCallback;	/**< Pointer to error handler function. */
 } SysInitInfo_t;
@@ -172,6 +178,11 @@ typedef struct _TaskDescriptorStruct
 	size_t stackSize;
 	TaskFlags_t flags;
 } TaskDesc_t;
+
+/**
+ * @brief Extern for memory check.
+ */
+extern char __heap_start;
 
 /**
  * @brief Start the uRTOS kernel.
