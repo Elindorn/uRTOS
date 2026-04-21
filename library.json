@@ -1,9 +1,34 @@
 {
 	"name": "uRTOS",
-	"version": "0.0.0",
-	"frameworks": "*",
-	"platforms": [
-		"atmelavr",
-		"lgt8f"
-	]
+	"version": "1.0.0",
+	"description": "A lightweight hybrid real-time operating system for AVR MCUs (ATmega328 and similar).",
+	"keywords": ["rtos", "avr", "atmega328", "arduino", "scheduler", "multitasking"],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Elindorn/uRTOS.git"
+	},
+	"authors": [
+		{
+			"name": "Elindorn",
+			"email": "",
+			"url": "https://github.com/Elindorn"
+		}
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/Elindorn/uRTOS",
+	"frameworks": ["arduino"],
+	"platforms": ["atmelavr"],
+	"headers": ["urtos.h"],
+	"export": {
+		"include": [
+			"include/*",
+			"src/*",
+			"LICENSE",
+			"README.md"
+		]
+	},
+	"build": {
+		"srcDir": "src",
+		"includeDir": "include"
+	}
 }
