@@ -91,6 +91,11 @@ extern "C" {
 
 
 /**
+ * @brief Error number type for the error callback.
+ */
+typedef uint32_t Errno_t;
+
+/**
  * @brief Function pointer type for a scheduler.
  * 
  * Scheduler functions are called from the tick handler on the system stack.
@@ -103,6 +108,11 @@ typedef void (*Scheduler_t)(void);
  * @brief Function pointer type for a task procedure. 
  */
 typedef void (*ProcAddr_t)(void);
+
+/**
+ * @brief Function pointer type for error callback
+ */
+typedef void (*ErrorCallback_t)(Errno_t);
 
 /**
  * @brief Generic pointer type
@@ -136,9 +146,10 @@ typedef size_t TaskId_t;
  */
 typedef struct _SystemInitInfoStruct
 {
-	uint8_t timerNo;			/**< Timer number (0, 1, or 2). */
-	uint8_t timerPrescaler;		/**< Timer prescaler (use uRTOS_TIM_PRESC_*). */
-	Scheduler_t scheduler;		/**< Pointer to the scheduler function. */
+	uint8_t timerNo;				/**< Timer number (0, 1, or 2). */
+	uint8_t timerPrescaler;			/**< Timer prescaler (use uRTOS_TIM_PRESC_*). */
+	Scheduler_t scheduler;			/**< Pointer to the scheduler function. */
+	ErrorCallback_t errorCallback;	/**< Pointer to error handler function. */
 } SysInitInfo_t;
 
 /**
@@ -216,6 +227,13 @@ unsigned long uRTOS_GetTick();
  */
 uRTOS_SCHEDULER(uRTOS_Sched_RoundRobin);
 
+/**
+ * @brief Error handler wrapper.
+ * 
+ * This wrapper checks callback is not a nullpointer and halt the system forever
+ * after callback completion.
+ */
+void __uRTOS_InvokeErrorHandler(Errno_t error);
 
 #ifdef __cplusplus
 }

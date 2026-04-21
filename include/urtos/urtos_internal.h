@@ -105,6 +105,8 @@ typedef struct _StaticInfoStruct
 	unsigned long tick;		/**< System tick counter. */
 
 	Scheduler_t scheduler;	/**< Current scheduler function. */
+	ErrorCallback_t errorHandler;	/**< Error handler function. */
+
 	uint8_t sysFlags;		/**< System flags (timer ID, etc.). */
 } StaticInfo_t;
 

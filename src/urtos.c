@@ -10,6 +10,7 @@
 
 #include <urtos/urtos_internal.h>
 #include <avr/interrupt.h>
+#include <avr/cpufunc.h>
 
 
 /**
@@ -135,4 +136,13 @@ void uRTOS_EnableTask(TaskId_t id)
 unsigned long uRTOS_GetTick()
 {
 	return __uRTOS_STATIC_INFO_PTR->tick;
+}
+
+void __uRTOS_InvokeErrorHandler(Errno_t error)
+{
+	if (__uRTOS_STATIC_INFO_PTR->errorHandler)
+		__uRTOS_STATIC_INFO_PTR->errorHandler(error);
+
+	while (1)
+		_NOP();
 }

@@ -69,6 +69,7 @@ static void uRTOS_InitSystem(const SysInitInfo_t* initInfo)
 	uRTOS_InitTimer(initInfo);
 
 	__uRTOS_STATIC_INFO_PTR->scheduler = (Scheduler_t)pgm_read_word(&initInfo->scheduler);
+	__uRTOS_STATIC_INFO_PTR->errorHandler = (ErrorCallback_t)pgm_read_word(&initInfo->errorCallback);
 }
 
 /**

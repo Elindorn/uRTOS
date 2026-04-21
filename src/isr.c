@@ -117,7 +117,7 @@ void __attribute__((naked, used, noinline)) uRTOS_TickHandler()
 		: "r30", "r31"
 	);
 
-		// Restore context
+	// Restore context
 	__asm__ __volatile__
 	(
 		"pop r0"				"\n\t"
