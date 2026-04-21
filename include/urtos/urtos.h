@@ -138,7 +138,7 @@ typedef struct _SystemInitInfoStruct
 {
 	uint8_t timerNo;			/**< Timer number (0, 1, or 2). */
 	uint8_t timerPrescaler;		/**< Timer prescaler (use uRTOS_TIM_PRESC_*). */
-	Scheduler_t scheduler;		/**< Pinter to the scheduler function. */
+	Scheduler_t scheduler;		/**< Pointer to the scheduler function. */
 } SysInitInfo_t;
 
 /**
