@@ -82,6 +82,15 @@
 #define uRTOS_TIM_PRESC_1024	0b101 /**< clk/1024 */
 /** @} */ // end of timer_presc
 
+/**
+ * @defgroup errno Error codes
+ * @{
+ */
+#define uRTOS_INSUFFICIENT_MEMORY	1 /**< Stacks overlaps with .data/.bss sections. TODO. */
+#define uRTOS_SCHEDULER_NOT_DEFINED	2 /**< Scheduler is not defined. */
+#define uRTOS_ALL_TASKS_SUSPENDED	3 /**< No runnable tasks. */
+/** @} */ // end of errno
+
 /** @} */ // end of public_api
 
 
