@@ -36,7 +36,7 @@ void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 		attemps++;
 
 		if (attemps >= maxAttemps)
-			__uRTOS_InvokeErrorHandler(uRTOS_ALL_TASKS_SUSPENDED);
+			uRTOS_InvokeErrorHandler(uRTOS_ALL_TASKS_SUSPENDED);
 
 	} while (next->flags != 0);
 	

@@ -143,7 +143,7 @@ unsigned long uRTOS_GetTick()
  * 
  * @param error Error code.
  */
-void __uRTOS_InvokeErrorHandler(Errno_t error)
+void uRTOS_InvokeErrorHandler(Errno_t error)
 {
 	if (__uRTOS_STATIC_INFO_PTR->errorHandler)
 		__uRTOS_STATIC_INFO_PTR->errorHandler(error);
