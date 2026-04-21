@@ -124,7 +124,7 @@ typedef void (*Scheduler_t)(void);
 typedef void (*ProcAddr_t)(void);
 
 /**
- * @brief Function pointer type for error callback
+ * @brief Function pointer type for error callback.
  */
 typedef void (*ErrorCallback_t)(Errno_t);
 

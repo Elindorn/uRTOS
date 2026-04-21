@@ -136,7 +136,7 @@ void uRTOS_TickHandler(void);
  * This wrapper checks callback is not a nullpointer and halt the system forever
  * after callback completion.
  */
-void uRTOS_InvokeErrorHandler(Errno_t error);
+void uRTOS_InvokeErrorHandler(Errno_t error) __attribute__((noreturn));
 
 
 #ifdef __cplusplus
