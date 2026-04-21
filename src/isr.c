@@ -23,15 +23,21 @@
 void __attribute__((used, noinline)) uRTOS_Sched_RoundRobin()
 {
 	TCB_t* next = __uRTOS_STATIC_INFO_PTR->current;
+	size_t maxAttemps = __uRTOS_STATIC_INFO_PTR->array->nTCBs << 1;
+	size_t attemps = 0;
 
 	do
 	{
-		next += 1;
+		next++;
 
 		if (next > __uRTOS_STATIC_INFO_PTR->last)
-		{
 			next = __uRTOS_STATIC_INFO_PTR->array->TCBs;
-		}
+
+		attemps++;
+
+		if (attemps >= maxAttemps)
+			__uRTOS_InvokeErrorHandler(uRTOS_ALL_TASKS_SUSPENDED);
+
 	} while (next->flags != 0);
 	
 	__uRTOS_STATIC_INFO_PTR->current = next;
