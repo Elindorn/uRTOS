@@ -174,9 +174,9 @@ typedef struct _SystemInitInfoStruct
  */
 typedef struct _TaskDescriptorStruct
 {
-	ProcAddr_t handle;
-	size_t stackSize;
-	TaskFlags_t flags;
+	ProcAddr_t handle;	/**< Pointer to task function. */
+	size_t stackSize;	/**< Task's stack size in bytes. */
+	TaskFlags_t flags;	/**< Task flags (use uRTOS_TFLAGS_*). */
 } TaskDesc_t;
 
 /**
