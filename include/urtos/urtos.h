@@ -227,14 +227,6 @@ unsigned long uRTOS_GetTick();
  */
 uRTOS_SCHEDULER(uRTOS_Sched_RoundRobin);
 
-/**
- * @brief Error handler wrapper.
- * 
- * This wrapper checks callback is not a nullpointer and halt the system forever
- * after callback completion.
- */
-void __uRTOS_InvokeErrorHandler(Errno_t error);
-
 #ifdef __cplusplus
 }
 #endif

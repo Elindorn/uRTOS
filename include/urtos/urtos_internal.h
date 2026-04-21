@@ -130,6 +130,14 @@ void uRTOS_Init(const SysInitInfo_t* initInfo, const TaskDesc_t* tasks, size_t n
  */
 void uRTOS_TickHandler(void);
 
+/**
+ * @brief Error handler wrapper.
+ * 
+ * This wrapper checks callback is not a nullpointer and halt the system forever
+ * after callback completion.
+ */
+void __uRTOS_InvokeErrorHandler(Errno_t error);
+
 
 #ifdef __cplusplus
 }
