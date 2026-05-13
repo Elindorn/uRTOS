@@ -16,8 +16,8 @@
 	],
 	"license": "MIT",
 	"homepage": "https://github.com/Elindorn/uRTOS",
-	"frameworks": ["arduino"],
-	"platforms": ["atmelavr"],
+	"frameworks": ["*"],
+	"platforms": ["atmelavr", "logicgreen"],
 	"headers": ["urtos.h"],
 	"export": {
 		"include": [
